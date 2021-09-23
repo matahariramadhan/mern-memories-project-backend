@@ -16,11 +16,10 @@ app.use(cors());
 
 app.use("/posts", postRoutes);
 
-const DATABASE_URL = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0-shard-00-00.rqcs9.mongodb.net:27017,cluster0-shard-00-01.rqcs9.mongodb.net:27017,cluster0-shard-00-02.rqcs9.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=atlas-93xfde-shard-0&authSource=admin&retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 5000;
 
 mongoose
-  .connect(DATABASE_URL, {
+  .connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
