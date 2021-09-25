@@ -5,6 +5,7 @@ import cors from "cors";
 import env from "dotenv";
 
 import postRoutes from "./routes/posts.js";
+import userRoutes from "./routes/user.js";
 
 const app = express();
 
@@ -17,7 +18,9 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Hello to Memories API");
 });
+
 app.use("/posts", postRoutes);
+app.use("/user", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
