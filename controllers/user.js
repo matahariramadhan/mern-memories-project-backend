@@ -28,7 +28,14 @@ export const signIn = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ result: existingUser, token });
+    res.status(200).json({
+      result: {
+        _id: existingUser._id,
+        email: existingUser.email,
+        name: existingUser.name,
+      },
+      token,
+    });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -53,13 +60,23 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = await jwt.sign(
-      { email: result.email, id: result._id },
+    const token = jwt.sign(
+      {
+        // biar sama signin
+        // email: result.email,
+        name: result.name,
+        id: result._id,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.status(201).json({ result, token });
+    res.status(201).json({
+      // biar gak ngirim password ke client
+      // result: result,
+      result: { _id: result._id, email: result.email, name: result.name },
+      token,
+    });
   } catch (error) {
     res.status(500).json(error);
   }

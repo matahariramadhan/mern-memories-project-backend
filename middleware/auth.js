@@ -14,18 +14,13 @@ const auth = async (req, res, next) => {
       decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
       req.userId = decodedData?.id;
-      next();
-    } else if (token && !isCustomAuth) {
+    } else {
       decodedData = jwt.decode(token);
 
       req.userId = decodedData?.sub;
-      next();
-    } else {
-      res.status(404).json("You need to signin");
     }
 
-    // ini kalo gak punya authorization malah bisa masuk
-    // malah kalo yang google yang gak bisa masuk
+    next();
   } catch (error) {
     console.log(error);
   }
